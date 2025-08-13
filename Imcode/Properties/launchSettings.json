@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    },
+    "Decode": {
+      "commandName": "Project",
+      "commandLineArgs": "decode out.png password",
+      "workingDirectory": "C:\\Users\\Flom\\source\\repos\\Imcode\\Imcode"
+    },
+    "Encode": {
+      "commandName": "Project",
+      "commandLineArgs": "encode image.png password \"Hello World\" -o out.png",
+      "workingDirectory": "C:\\Users\\Flom\\source\\repos\\Imcode\\Imcode"
+    }
+  }
+}
