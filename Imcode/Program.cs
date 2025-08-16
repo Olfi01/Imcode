@@ -11,7 +11,7 @@ namespace Imcode
     internal class Program
     {
         private const int MAGIC_NUMBER = -113590060;
-        private static PngEncoder pngEncoder = new()
+        private static readonly PngEncoder pngEncoder = new()
         {
             ColorType = PngColorType.RgbWithAlpha
         };
@@ -112,7 +112,7 @@ namespace Imcode
             Random random1 = CreateRandom(keyword1);
             Random random2 = CreateRandom(keyword2);
             int informationSpace1 = random1.Next(16);
-            int informationSpace2 = random1.Next(16);
+            int informationSpace2 = random2.Next(16);
             if (informationSpace1 == informationSpace2)
             {
                 await Console.Out.WriteLineAsync($"Uh oh! These two keywords are operating in the same information space ({informationSpace1}) and could possibly collide!");
@@ -125,7 +125,7 @@ namespace Imcode
             }
         }
 
-        private static Random CreateRandom(string keyword)
+        private static ConsistentRandom CreateRandom(string keyword)
         {
             byte[] hashValue = SHA256.HashData(Encoding.UTF8.GetBytes(keyword));
             byte[] seedBytes = new byte[4];
@@ -134,7 +134,7 @@ namespace Imcode
                 seedBytes[i % 4] = (byte)(seedBytes[i % 4] ^ hashValue[i]);
             }
             int seed = BitConverter.ToInt32(seedBytes);
-            return new Random(seed);
+            return new ConsistentRandom(seed);
         }
 
         private static async Task<int> Encode(FileInfo imageFile, string keyword, string? inputString, FileInfo? inputFile, FileInfo? outputFile, CancellationToken cancellationToken)
